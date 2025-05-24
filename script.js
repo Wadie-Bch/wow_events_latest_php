@@ -211,9 +211,24 @@ function showToast(message, isError = false) {
 }
 
 // Check for success parameter in URL
-window.addEventListener('DOMContentLoaded', () => {
-    if (window.location.hash.includes('#book?ok=1')) {
+console.log('Current URL:', window.location.href);
+
+// Execute immediately and also on DOMContentLoaded
+function checkSuccessParam() {
+    console.log('Checking for success parameter');
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('success')) {
+        console.log('Success parameter found, showing toast');
         showToast('Merci pour votre message! Nous vous contacterons bientôt.');
-        history.replaceState(null, null, window.location.pathname + '#book');
+        history.replaceState(null, null, window.location.pathname + window.location.hash);
     }
-});
+}
+
+// Check immediately
+checkSuccessParam();
+
+// Also check on DOMContentLoaded
+window.addEventListener('DOMContentLoaded', checkSuccessParam);
+
+// Check on load as well (backup)
+window.addEventListener('load', checkSuccessParam);

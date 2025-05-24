@@ -52,6 +52,7 @@ try {
     $mail->addAddress('contact@woweventsofficial.com', 'Réservations WOW');
 
     // Contenu
+    $mail->CharSet = 'UTF-8';
     $mail->isHTML(true);
     $mail->Subject = 'Nouvelle demande de réservation';
     $mail->Body    = "
@@ -66,7 +67,7 @@ try {
     ";
 
     $mail->send();
-    header('Location: index.php#book?ok=1'); // feedback user
+    header('Location: index.php?success=1#book');
     exit;
 
 } catch (Exception $e) {

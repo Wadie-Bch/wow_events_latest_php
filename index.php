@@ -12,6 +12,10 @@
 </head>
 
 <body>
+    <?php if (isset($_GET['success'])): ?>
+    <div class="static-toast toast-success">Merci pour votre message! Nous vous contacterons bientôt.</div>
+    <?php endif; ?>
+    
     <div class="balloon-container"></div>
     <div class="language-switcher">
         <button onclick="switchLanguage('fr')" class="lang-btn active" data-lang="fr">Français</button>
@@ -37,7 +41,6 @@
     <section id="home" class="hero">
         <video autoplay muted loop id="heroVideo">
             <source src="./assets/hero.mp4" type="video/mp4">
-            <source src="./assets/hero2.mp4" type="video/mp4">
         </video>
         <div class="hero-content">
             <h1 data-fr="Créons des Moments Inoubliables" data-darija="نخلقو لحظات ما تتنساش">Créons des Moments Inoubliables</h1>
@@ -96,13 +99,13 @@
                     <p data-fr="Rabat, 2024" data-darija="الرباط، 2024">Rabat, 2024</p>
                 </div>
             </div>
-            <div class="portfolio-item">
+            <!-- <div class="portfolio-item">
                 <img src="./assets/image5.jpeg" alt="Character Meet">
                 <div class="overlay">
                     <h3 data-fr="Rencontres Personnages" data-darija="لقاء الشخصيات">Rencontres Personnages</h3>
                     <p data-fr="Tanger, 2024" data-darija="طنجة، 2024">Tanger, 2024</p>
                 </div>
-            </div>
+            </div> -->
         </div>
     </section>
     <section id="about" class="about">
@@ -142,11 +145,11 @@
             <div class="form-group">
                 <select name="eventType" required>
                     <option value="">Sélectionnez le Type d'Événement</option>
-                    <option value="wedding">Mariage</option>
-                    <option value="corporate">Événement Entreprise</option>
-                    <option value="birthday">Anniversaire</option>
-                    <option value="anniversary">Anniversaire de Mariage</option>
-                    <option value="other">Autre</option>
+                    <option value="Mariage">Mariage</option>
+                    <option value="Événement Entreprise">Événement Entreprise</option>
+                    <option value="Anniversaire">Anniversaire</option>
+                    <option value="Anniversaire de Mariage">Anniversaire de Mariage</option>
+                    <option value="Autre">Autre</option>
                 </select>
             </div>
             <div class="form-group">
