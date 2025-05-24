@@ -27,7 +27,6 @@ if (hamburger && navLinks) {
 const bookingForm = document.getElementById('bookingForm');
 // Form was previously handled here - now handled directly by HTML form submission
 
-// Language switching
 function switchLanguage(lang) {
     const langButtons = document.querySelectorAll('.lang-btn');
     langButtons.forEach(btn => {
@@ -41,11 +40,55 @@ function switchLanguage(lang) {
     
     document.querySelectorAll('[data-fr]').forEach(element => {
         if (lang === 'fr') {
-            element.textContent = element.getAttribute('data-fr');
+            if (element.innerHTML.includes('<span>')) {
+                element.innerHTML = element.getAttribute('data-fr');
+            } else {
+                element.textContent = element.getAttribute('data-fr');
+            }
+        } else if (lang === 'en') {
+            if (element.innerHTML.includes('<span>')) {
+                element.innerHTML = element.getAttribute('data-en');
+            } else {
+                element.textContent = element.getAttribute('data-en');
+            }
         } else if (lang === 'darija') {
-            element.textContent = element.getAttribute('data-darija');
+            if (element.innerHTML.includes('<span>')) {
+                element.innerHTML = element.getAttribute('data-darija');
+            } else {
+                element.textContent = element.getAttribute('data-darija');
+            }
         }
     });
+    
+    document.querySelectorAll('input[data-fr-placeholder], textarea[data-fr-placeholder]').forEach(input => {
+        if (lang === 'fr') {
+            input.placeholder = input.getAttribute('data-fr-placeholder');
+        } else if (lang === 'en') {
+            input.placeholder = input.getAttribute('data-en-placeholder');
+        } else if (lang === 'darija') {
+            input.placeholder = input.getAttribute('data-darija-placeholder');
+        }
+    });
+    
+    const selectElement = document.querySelector('select[data-fr-placeholder]');
+    if (selectElement) {
+        const placeholderOption = selectElement.querySelector('.placeholder-option');
+        if (placeholderOption) {
+            if (lang === 'fr') {
+                placeholderOption.textContent = selectElement.getAttribute('data-fr-placeholder');
+            } else if (lang === 'en') {
+                placeholderOption.textContent = selectElement.getAttribute('data-en-placeholder');
+            } else if (lang === 'darija') {
+                placeholderOption.textContent = selectElement.getAttribute('data-darija-placeholder');
+            }
+        }
+        
+        Array.from(selectElement.options).forEach(option => {
+            if (option.value && option.hasAttribute(`data-${lang}`)) {
+                option.textContent = option.getAttribute(`data-${lang}`);
+            }
+        });
+    }
 }
 
 // Smooth scrolling
@@ -178,10 +221,28 @@ class BalloonAnimation {
     }
 }
 
-// Initialize balloon animation when the page is fully loaded
 window.addEventListener('load', () => {
     console.log('Page loaded, starting balloon animation...');
     new BalloonAnimation();
+    
+    const goToTopBtn = document.getElementById('goToTopBtn');
+    
+    if (goToTopBtn) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                goToTopBtn.classList.add('visible');
+            } else {
+                goToTopBtn.classList.remove('visible');
+            }
+        });
+        
+        goToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
 });
 
 // AOS initialization
@@ -210,16 +271,23 @@ function showToast(message, isError = false) {
     }, 5000);
 }
 
-// Check for success parameter in URL
 console.log('Current URL:', window.location.href);
 
-// Execute immediately and also on DOMContentLoaded
 function checkSuccessParam() {
     console.log('Checking for success parameter');
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('success')) {
         console.log('Success parameter found, showing toast');
-        showToast('Merci pour votre message! Nous vous contacterons bientôt.');
+        const currentLang = document.querySelector('.lang-btn.active')?.getAttribute('data-lang') || 'fr';
+        let message = 'Merci pour votre message! Nous vous contacterons bientôt.';
+        
+        if (currentLang === 'en') {
+            message = 'Thank you for your message! We\'ll contact you soon.';
+        } else if (currentLang === 'darija') {
+            message = 'شكرا على رسالتك! سنتصل بك قريبا.';
+        }
+        
+        showToast(message);
         history.replaceState(null, null, window.location.pathname + window.location.hash);
     }
 }
