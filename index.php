@@ -196,6 +196,23 @@
         </div>
     </footer>
     <script src="script.js"></script>
+    <style>
+        .whatsapp-widget {
+            position: fixed;
+            bottom: 120px;
+            left: 20px;
+            z-index: 1000;
+            width: 90px;
+            height: 60px;
+        }
+        .whatsapp-widget img {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+    <a href="https://wa.me/212663416749" target="_blank" class="whatsapp-widget">
+        <img src="./assets/whatsapp.png" alt="WhatsApp">
+    </a>
 </body>
 
 </html>
